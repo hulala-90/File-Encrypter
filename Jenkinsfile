@@ -24,19 +24,17 @@ node {
 
             cd "Password Protection"
 
-            # Download JUnit if not present
-            if [ ! -f junit-platform-console-standalone.jar ]; then
-                echo "Downloading JUnit..."
-                curl -L -o junit-platform-console-standalone.jar \
-                https://repo1.maven.org/maven2/org/junit/platform/junit-platform-console-standalone/1.10.0/junit-platform-console-standalone-1.10.0.jar
-            fi
+            # Remove old jar if exists
+            rm -f junit-platform-console-standalone.jar
 
-            # Compile test files
+            echo "Downloading JUnit..."
+            curl -L -o junit-platform-console-standalone.jar \
+            https://repo1.maven.org/maven2/org/junit/platform/junit-platform-console-standalone/1.10.0/junit-platform-console-standalone-1.10.0.jar
+
             mkdir -p test-build
 
             javac -cp junit-platform-console-standalone.jar:build -d test-build test/*.java
 
-            # Run tests
             java -jar junit-platform-console-standalone.jar \
             --class-path build:test-build \
             --scan-class-path
